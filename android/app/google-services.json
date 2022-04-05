@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "449915421424",
+    "project_id": "bachelor-29570",
+    "storage_bucket": "bachelor-29570.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:449915421424:android:ed55d06b78ae09409fb835",
+        "android_client_info": {
+          "package_name": "com.Iversen.bachelor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "449915421424-6h203nubqf6143q9asdnkrs2o20e348c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNJ7kP6UHQXYc8xuBjPzAuuFnz9Fu5i-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "449915421424-6h203nubqf6143q9asdnkrs2o20e348c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:449915421424:android:dcd283f6452418479fb835",
+        "android_client_info": {
+          "package_name": "com.ThomasIversen.bachelor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "449915421424-6h203nubqf6143q9asdnkrs2o20e348c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNJ7kP6UHQXYc8xuBjPzAuuFnz9Fu5i-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "449915421424-6h203nubqf6143q9asdnkrs2o20e348c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
