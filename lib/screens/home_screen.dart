@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: appBar(text: 'Home Screen'),
       body: Column(
         children: <Widget>[
-          Text('Welcome to ivers kosehule'),
+          Text('Welcome to ivers kosekrok'),
           Spacer(),
           Center(
             child: RoundedButton(
