@@ -15,6 +15,7 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,14 +33,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 height: 100.0,
               ),
               RoundedButton(
-                  title: 'Log in',
+                  widgetText: Text('Log in', style: TextStyle(color: Colors.white)),
                   color: kColor,
+                  width: 500,
+                  height: 42,
                   onPressed: () {
                     Navigator.pushNamed(context, LoginScreen.id);
                   },),
               RoundedButton(
-                  title: 'Register',
+                  widgetText: Text('Register', style: TextStyle(color: Colors.white)),
                   color: kColor,
+                  width: 500,
+                  height: 42,
                   onPressed: () {
                     Navigator.pushNamed(context, RegistrationScreen.id);
                   }),

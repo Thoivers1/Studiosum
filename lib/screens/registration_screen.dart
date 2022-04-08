@@ -57,11 +57,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 height: 24.0,
               ),
               RoundedButton(
-                title: 'Log in',
-                color: kColor,
-                onPressed: () async {
-                  setState(() {
-                    showSpinner = true;
+                  widgetText: Text('Logg in', style: TextStyle(color: Colors.white)),
+                  color: kColor,
+                  width: 200,
+                  height: 42,
+                  onPressed: () async {
+                    setState(() {
+                      showSpinner = true;
                   });
                   try {
                     final newUser = await _auth.createUserWithEmailAndPassword(

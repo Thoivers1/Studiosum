@@ -3,6 +3,7 @@ import 'package:bachelor/components/appBar.dart';
 import 'package:bachelor/components/rounded_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bachelor/constants.dart';
+import 'package:bachelor/components/bottom_appBar.dart';
 
 late User loggedInUser;
 
@@ -40,22 +41,36 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBar(text: 'Home Screen'),
-      body: Column(
+      bottomNavigationBar: bottom_appBar(),
+      body: ListView(
         children: <Widget>[
-          Text('Welcome to ola sin roblox-klubb'),
-          Spacer(),
-          Center(
-            child: RoundedButton(
-              title: 'Log out',
-              color: kColor,
-              onPressed: (){
-                _auth.signOut();
-                Navigator.pop(context);
-              }
+          RoundedButton(
+            color: kColor,
+            height: 42.0,
+            width: 100.0,
+            widgetText: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget> [
+                Icon(Icons.add_circle, color: Colors.white,),
+                SizedBox(width: 10.0,),
+                Text('Opprett ny annonse', style: TextStyle(color: Colors.white)),
+              ],
             ),
+            onPressed: (){
+
+            },
           ),
+
+          SizedBox(height: 25.0),
+          Center(child: Text(
+            'Mine aktive annonser',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          )),
         ],
       ),
     );
   }
 }
+
