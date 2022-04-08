@@ -21,7 +21,7 @@ class bottom_appBar extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(15.0),
             child: IconButton(
-              icon: Icon(Icons.shopping_cart, color: Colors.blueGrey,),
+              icon: Icon(Icons.search, color: Colors.blueGrey,),
               iconSize: 35.0,
               onPressed: (){
 
