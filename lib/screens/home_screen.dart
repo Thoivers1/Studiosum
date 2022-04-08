@@ -42,33 +42,36 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.white,
       appBar: appBar(text: 'Home Screen'),
       bottomNavigationBar: bottom_appBar(),
-      body: ListView(
-        children: <Widget>[
-          RoundedButton(
-            color: kColor,
-            height: 42.0,
-            width: 100.0,
-            widgetText: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget> [
-                Icon(Icons.add_circle, color: Colors.white,),
-                SizedBox(width: 10.0,),
-                Text('Opprett ny annonse', style: TextStyle(color: Colors.white)),
-              ],
-            ),
-            onPressed: (){
+      body: Padding(
+        padding: EdgeInsets.only(left: 60.0, right: 60.0, top: 30.0, bottom: 30.0),
+        child: ListView(
+          children: <Widget>[
+            RoundedButton(
+              color: kColor,
+              height: 42.0,
+              width: 100.0,
+              widgetText: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget> [
+                  Icon(Icons.add_circle, color: Colors.white,),
+                  SizedBox(width: 10.0,),
+                  Text('Opprett ny annonse', style: TextStyle(color: Colors.white)),
+                ],
+              ),
+              onPressed: (){
 
-            },
-          ),
-
-          SizedBox(height: 25.0),
-          Center(child: Text(
-            'Mine aktive annonser',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+              },
             ),
-          )),
-        ],
+
+            SizedBox(height: 25.0),
+            Center(child: Text(
+              'Mine aktive annonser',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            )),
+          ],
+        ),
       ),
     );
   }
