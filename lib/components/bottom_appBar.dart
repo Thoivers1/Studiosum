@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
-class bottom_appBar extends StatelessWidget {
-  const bottom_appBar({
-    Key? key,
-  }) : super(key: key);
+class bottom_appBar extends StatefulWidget {
+
+  @override
+  State<bottom_appBar> createState() => _bottom_appBarState();
+}
+
+class _bottom_appBarState extends State<bottom_appBar> {
+  bool homePressed = false;
+  bool searchPressed = false;
+  bool profilePressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +27,14 @@ class bottom_appBar extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(15.0),
             child: IconButton(
-              icon: Icon(Icons.search, color: Colors.blueGrey,),
+              icon: Icon(Icons.search, color: searchPressed ? Colors.black : Colors.blueGrey),
               iconSize: 35.0,
               onPressed: (){
-
+                setState(() {
+                  searchPressed = !searchPressed;
+                  homePressed = false;
+                  profilePressed = false;
+                });
               },
             ),
           ),
@@ -32,10 +42,14 @@ class bottom_appBar extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(15.0),
             child: IconButton(
-              icon: Icon(Icons.home, color: Colors.blueGrey),
+              icon: Icon(Icons.home, color: homePressed ? Colors.black : Colors.blueGrey),
               iconSize: 35.0,
               onPressed: (){
-
+                setState(() {
+                  homePressed = !homePressed;
+                  searchPressed = false;
+                  profilePressed = false;
+                });
               },
             ),
           ),
@@ -43,10 +57,14 @@ class bottom_appBar extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(15.0),
             child: IconButton(
-              icon: Icon(Icons.person, color: Colors.blueGrey),
+              icon: Icon(Icons.person, color: profilePressed ? Colors.black : Colors.blueGrey),
               iconSize: 35.0,
               onPressed: (){
-
+                setState(() {
+                  profilePressed = !profilePressed;
+                  searchPressed = false;
+                  homePressed = false;
+                });
               },
             ),
           ),
