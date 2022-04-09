@@ -4,6 +4,7 @@ import 'package:bachelor/components/rounded_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bachelor/constants.dart';
 import 'package:bachelor/components/bottom_appBar.dart';
+import 'package:bachelor/screens/create_screen.dart';
 
 late User loggedInUser;
 
@@ -41,7 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBar(text: 'Home Screen'),
-      bottomNavigationBar: bottom_appBar(),
+      bottomNavigationBar: bottomAppBar(
+
+      ),
       body: Padding(
         padding: EdgeInsets.only(left: 60.0, right: 60.0, top: 30.0, bottom: 30.0),
         child: ListView(
@@ -59,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               onPressed: (){
-
+                Navigator.pushNamed(context, CreateScreen.id);
               },
             ),
 

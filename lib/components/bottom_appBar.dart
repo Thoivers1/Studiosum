@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:bachelor/screens/profile_screen.dart';
+import 'package:bachelor/screens/home_screen.dart';
+import 'package:bachelor/screens/search_screen.dart';
 
-class bottom_appBar extends StatefulWidget {
+class bottomAppBar extends StatefulWidget {
 
   @override
-  State<bottom_appBar> createState() => _bottom_appBarState();
+  State<bottomAppBar> createState() => _bottomAppBarState();
 }
 
-class _bottom_appBarState extends State<bottom_appBar> {
+class _bottomAppBarState extends State<bottomAppBar> {
+
   bool homePressed = false;
   bool searchPressed = false;
   bool profilePressed = false;
@@ -35,6 +39,7 @@ class _bottom_appBarState extends State<bottom_appBar> {
                   homePressed = false;
                   profilePressed = false;
                 });
+                Navigator.pushNamed(context, SearchScreen.id);
               },
             ),
           ),
@@ -50,6 +55,7 @@ class _bottom_appBarState extends State<bottom_appBar> {
                   searchPressed = false;
                   profilePressed = false;
                 });
+                Navigator.pushNamed(context, HomeScreen.id);
               },
             ),
           ),
@@ -65,6 +71,7 @@ class _bottom_appBarState extends State<bottom_appBar> {
                   searchPressed = false;
                   homePressed = false;
                 });
+                Navigator.pushNamed(context, ProfileScreen.id);
               },
             ),
           ),

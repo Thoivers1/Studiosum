@@ -1,8 +1,11 @@
+import 'package:bachelor/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bachelor/screens/welcome_screen.dart';
 import 'package:bachelor/screens/login_screen.dart';
 import 'package:bachelor/screens/registration_screen.dart';
 import 'package:bachelor/screens/home_screen.dart';
+import 'package:bachelor/screens/create_screen.dart';
+import 'package:bachelor/screens/search_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
@@ -22,6 +25,9 @@ class Bachelor extends StatelessWidget {
         LoginScreen.id : (context) => LoginScreen(),
         RegistrationScreen.id : (context) => RegistrationScreen(),
         HomeScreen.id: (context) => HomeScreen(),
+        ProfileScreen.id: (context) => ProfileScreen(),
+        CreateScreen.id: (context) => CreateScreen(),
+        SearchScreen.id: (context) => SearchScreen(),
       },
     );
   }
