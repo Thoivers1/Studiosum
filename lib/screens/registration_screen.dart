@@ -25,7 +25,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBar(text:'studiosum'),
+      appBar: appBar(text:'studiosum', height: 120.0,),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: Padding(

@@ -6,6 +6,7 @@ import 'package:bachelor/screens/registration_screen.dart';
 import 'package:bachelor/screens/home_screen.dart';
 import 'package:bachelor/screens/create_screen.dart';
 import 'package:bachelor/screens/search_screen.dart';
+import 'package:bachelor/screens/profile_settings_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
@@ -28,6 +29,7 @@ class Bachelor extends StatelessWidget {
         ProfileScreen.id: (context) => ProfileScreen(),
         CreateScreen.id: (context) => CreateScreen(),
         SearchScreen.id: (context) => SearchScreen(),
+        ProfileSettingsScreen.id: (context) => ProfileSettingsScreen(),
       },
     );
   }

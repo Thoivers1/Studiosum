@@ -4,9 +4,10 @@ import 'package:bachelor/constants.dart';
 
 class appBar extends StatelessWidget with PreferredSizeWidget {
 
-  appBar({required this.text});
+  appBar({required this.text, required this.height});
 
   final String text;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +32,11 @@ class appBar extends StatelessWidget with PreferredSizeWidget {
       shape: ContinuousRectangleBorder(
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(50.0)),
       ),
-      toolbarHeight: 120.0,
+      toolbarHeight: height,
 
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(120.0);
+  Size get preferredSize => Size.fromHeight(height);
 }

@@ -20,7 +20,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBar(text:'studiosum'),
+      appBar: appBar(text:'studiosum', height: 250.0,),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(30.0),

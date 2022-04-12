@@ -41,10 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBar(text: 'Home Screen'),
-      bottomNavigationBar: bottomAppBar(
-
-      ),
+      appBar: appBar(text: 'Home Screen', height: 120.0,),
+      bottomNavigationBar: bottomAppBar(),
       body: Padding(
         padding: EdgeInsets.only(left: 60.0, right: 60.0, top: 30.0, bottom: 30.0),
         child: ListView(

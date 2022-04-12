@@ -27,6 +27,3 @@ class RoundedButton extends StatelessWidget {
     );
   }
 }
-
-//min width 200.0
-//height 42
