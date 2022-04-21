@@ -17,21 +17,40 @@ class CreateScreen extends StatefulWidget {
 
 class _CreateScreenState extends State<CreateScreen> {
 
-  String studieStedDoc = 'cHCdFIAwoJjxYr6BqcWX';
-  String studieRetningDoc = 'OmB0JvM4mDZxlvwcoqZn';
+  String? studieStedDoc;
+  String? studieRetningDoc;
+  String? semesterDoc;
+  String? fagDoc;
 
   String? bookId;
   String? skoleId;
   String? retningId;
+  String? semesterId;
+  String? fagId;
 
   void changeStudiestedDoc(String newDoc) {
     setState(() {
       this.studieStedDoc = newDoc;
     });
   }
+  void changeSkoleDoc(String newDoc) {
+    setState(() {
+      this.semesterDoc = newDoc;
+    });
+  }
   void changeStudieretningDoc(String newDoc) {
     setState(() {
       this.studieRetningDoc = newDoc;
+    });
+  }
+  void changeSemesterDoc(String newDoc) {
+    setState(() {
+      this.semesterDoc = newDoc;
+    });
+  }
+  void changeFagDoc(String newDoc) {
+    setState(() {
+      this.fagDoc = newDoc;
     });
   }
 
@@ -50,7 +69,16 @@ class _CreateScreenState extends State<CreateScreen> {
       this.retningId = newValueSelected;
     });
   }
-
+  void _onSemesterDropItemSelected(String newValueSelected) {
+    setState(() {
+      this.semesterId = newValueSelected;
+    });
+  }
+  void _onFagDropItemSelected(String newValueSelected) {
+    setState(() {
+      this.fagId = newValueSelected;
+    });
+  }
 
 
 
@@ -131,7 +159,8 @@ class _CreateScreenState extends State<CreateScreen> {
           ),
 
           //DropdownButtons
-        Padding(
+          //BY
+          Padding(
           padding: const EdgeInsets.all(8.0),
           child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.collection('Books').snapshots(),
@@ -174,7 +203,7 @@ class _CreateScreenState extends State<CreateScreen> {
             );
           }),
         ),
-
+          //SKOLE
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: StreamBuilder<QuerySnapshot>(
@@ -198,6 +227,14 @@ class _CreateScreenState extends State<CreateScreen> {
                         setState(() {
                           skoleId = valueSelectedByUser ?? "";
                         });
+                          switch (valueSelectedByUser){
+                            case 'Høgskulen ved Vestlandet':
+                              {
+                                changeStudieretningDoc(
+                                    (snapshot.data! as QuerySnapshot).docs[0].reference.id.toString());
+                              }
+                              break;
+                          }
                       },
                       hint: Text('Velg Skole'),
                       items: (snapshot.data!).docs
@@ -211,6 +248,7 @@ class _CreateScreenState extends State<CreateScreen> {
                   );
                 }),
           ),
+          //STUDIERETNING
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: StreamBuilder<QuerySnapshot>(
@@ -236,6 +274,14 @@ class _CreateScreenState extends State<CreateScreen> {
                         setState(() {
                           retningId = valueSelectedByUser ?? "";
                         });
+                        switch (valueSelectedByUser){
+                          case 'Dataingeniør':
+                            {
+                              changeSemesterDoc(
+                                  (snapshot.data! as QuerySnapshot).docs[0].reference.id.toString());
+                            }
+                            break;
+                        }
                       },
                       hint: Text('Velg Studieretning'),
                       items: (snapshot.data!).docs
@@ -249,31 +295,97 @@ class _CreateScreenState extends State<CreateScreen> {
                   );
                 }),
           ),
+          //SEMESTER
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: DropdownButtonFormField(
-              decoration: kTextFieldDecoration.copyWith(hintText: 'Velg semester'),
-              items: <String> ['A', 'B', 'C'].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (_){},
-            ),
+            child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('Books')
+                    .doc(studieStedDoc)
+                    .collection('Skole')
+                    .doc(studieRetningDoc)
+                    .collection('Studieretning')
+                    .doc(semesterDoc)
+                    .collection('Semester')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData)
+                    return Center(
+                      child: CupertinoActivityIndicator(),
+                    );
+
+                  return Container(
+                    child: DropdownButtonFormField(
+                      decoration: kTextFieldDecoration.copyWith(hintText: ''),
+                      value: semesterId,
+                      isDense: true,
+                      onChanged: (String? valueSelectedByUser) {
+                        setState(() {
+                          semesterId = valueSelectedByUser ?? "";
+                        });
+                        switch (valueSelectedByUser){
+                          case '1. Semester':
+                            {
+                              changeFagDoc(
+                                  (snapshot.data! as QuerySnapshot).docs[0].reference.id.toString());
+                            }
+                            break;
+                        }
+                      },
+                      hint: Text('Velg Semester'),
+                      items: (snapshot.data!).docs
+                          .map((DocumentSnapshot document) {
+                        return DropdownMenuItem<String>(
+                          value: document['Semester'],
+                          child: Text(document['Semester']),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                }),
           ),
+          //FAG
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: DropdownButtonFormField(
-              decoration: kTextFieldDecoration.copyWith(hintText: 'Velg fag'),
-              items: <String> ['A', 'B', 'C'].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (_){},
-            ),
+            child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('Books')
+                    .doc(studieStedDoc)
+                    .collection('Skole')
+                    .doc(studieRetningDoc)
+                    .collection('Studieretning')
+                    .doc(semesterDoc)
+                    .collection('Semester')
+                    .doc(fagDoc)
+                    .collection('Fag')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData)
+                    return Center(
+                      child: CupertinoActivityIndicator(),
+                    );
+
+                  return Container(
+                    child: DropdownButtonFormField(
+                      decoration: kTextFieldDecoration.copyWith(hintText: ''),
+                      value: fagId,
+                      isDense: true,
+                      onChanged: (String? valueSelectedByUser) {
+                        setState(() {
+                          fagId = valueSelectedByUser ?? "";
+                        });
+                      },
+                      hint: Text('Velg Fag'),
+                      items: (snapshot.data!).docs
+                          .map((DocumentSnapshot document) {
+                        return DropdownMenuItem<String>(
+                          value: document['Fag'],
+                          child: Text(document['Fag']),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                }),
           ),
 
           //SearchButton
@@ -282,7 +394,9 @@ class _CreateScreenState extends State<CreateScreen> {
             child: RoundedButton(
                 widgetText: Text('Opprett', style: TextStyle(color: Colors.white, fontSize: 20.0),),
                 color: kColor,
-                onPressed: (){},
+                onPressed: (){
+                  
+                },
                 width: 100.0,
                 height: 42.0
             ),
