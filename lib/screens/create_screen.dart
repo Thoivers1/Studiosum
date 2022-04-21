@@ -85,7 +85,7 @@ class _CreateScreenState extends State<CreateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(text:'studiosum', height: 120.0),
+      appBar: appBar(textWidget:Text('studiosum'), height: 120.0, backArrow: false, logoSize: 40.0,),
       bottomNavigationBar: bottomAppBar(),
       body: Column(
         children: <Widget>[
@@ -395,7 +395,7 @@ class _CreateScreenState extends State<CreateScreen> {
                 widgetText: Text('Opprett', style: TextStyle(color: Colors.white, fontSize: 20.0),),
                 color: kColor,
                 onPressed: (){
-                  
+
                 },
                 width: 100.0,
                 height: 42.0

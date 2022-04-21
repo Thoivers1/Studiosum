@@ -41,7 +41,51 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBar(text: 'Home Screen', height: 120.0,),
+      appBar: appBar(
+        logoSize: 50.0,
+        backArrow: false,
+        textWidget:  Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(32.0)),
+              ),
+              width: 300,
+              child: TextField(
+                textAlign: TextAlign.center,
+                onChanged: (value) {
+
+                },
+                decoration: kTextFieldDecoration.copyWith(hintText: 'Søk etter bok eller ISBN'),
+              ),
+            ),
+            SizedBox(width: 10.0,),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
+              child: Material(
+                elevation: 5.0,
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(20.0),
+                child: MaterialButton(
+                  onPressed: (){
+
+                  },
+                  minWidth: 50.0,
+                  height: 50.0,
+                  child: Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        height: 200.0,),
+
       bottomNavigationBar: bottomAppBar(),
       body: Padding(
         padding: EdgeInsets.only(left: 60.0, right: 60.0, top: 30.0, bottom: 30.0),

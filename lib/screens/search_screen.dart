@@ -85,7 +85,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(text:'studiosum', height: 120.0),
+      appBar: appBar(textWidget:Text('studiosum'), height: 120.0, backArrow: false, logoSize: 40.0,),
       bottomNavigationBar: bottomAppBar(),
       body: Column(
         children: <Widget>[
