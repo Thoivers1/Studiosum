@@ -6,7 +6,7 @@ import 'package:bachelor/constants.dart';
 import 'package:bachelor/components/bottom_appBar.dart';
 import 'package:bachelor/screens/create_screen.dart';
 
-late User loggedInUser;
+late  User loggedInUser;
 
 class HomeScreen extends StatefulWidget {
 
