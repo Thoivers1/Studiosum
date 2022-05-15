@@ -73,7 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             Center(
               //users.toString().substring(users.toString().indexOf('FirstName:') + 10, users.toString().indexOf('LastName') - 2)
-              child: TextFormField(users.toString().substring(users.toString().indexOf('FirstName:') + 10, users.toString().indexOf('LastName') - 2), style: TextStyle(
+              child: Text(users.toString().substring(users.toString().indexOf('FirstName:') + 10, users.toString().indexOf('LastName') - 2), style: TextStyle(
                 fontSize: 25.0,
               ),),
             ),
