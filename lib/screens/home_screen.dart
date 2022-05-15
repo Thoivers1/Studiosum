@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:bachelor/components/appBar.dart';
 import 'package:bachelor/components/rounded_button.dart';
@@ -5,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bachelor/constants.dart';
 import 'package:bachelor/components/bottom_appBar.dart';
 import 'package:bachelor/screens/create_screen.dart';
+import 'package:bachelor/screens/search_screen.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 late  User loggedInUser;
 
@@ -19,13 +22,21 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   final _auth = FirebaseAuth.instance;
+  List<Object?> annonser = [];
 
   @override
   void initState() {
-    getCurrentUser();
+    super.initState();
+
+    getCurrentUser().whenComplete((){
+      setState(() {
+        getCurrentUser();
+        getAnnonse();
+      });
+    });
   }
 
-  void getCurrentUser() async{
+  getCurrentUser() async{
     try {
       final user = await _auth.currentUser;
       if (user != null) {
@@ -35,6 +46,21 @@ class _HomeScreenState extends State<HomeScreen> {
     } catch (e){
       print(e);
     }
+  }
+
+  getAnnonse() async{
+    await FirebaseFirestore.instance
+        .collectionGroup('Annonse')
+        .where('Bruker', isEqualTo: loggedInUser.email)
+        .get()
+        .then((QuerySnapshot snapshot){
+          snapshot.docs.forEach((DocumentSnapshot doc){
+            print(doc.data());
+            setState(() {
+              this.annonser.add(doc.data());
+        });
+      });
+    });
   }
 
   @override
@@ -115,6 +141,92 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontWeight: FontWeight.bold,
               ),
             )),
+            for(var annonse in annonser) GestureDetector(
+              onTap: (){
+                print('test');
+              },
+              child: Container(
+                margin: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
+                width: double.infinity,
+                height: 150.0,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                        margin: const EdgeInsets.only(right: 5.0),
+                        width: 100,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Image(
+                          image: AssetImage('images/book.png'),
+                        )
+                    ),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FittedBox(
+                            fit: BoxFit.contain,
+                            child: Text(
+                              //Tittel
+                              annonse.toString().substring(annonse.toString().indexOf('Tittel:') + 7, annonse.toString().indexOf('Pris:')-2),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20.0,
+                            child: Divider(
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            //Pris
+                            annonse.toString().substring(annonse.toString().indexOf('Pris:') + 6, annonse.toString().indexOf('Bruker')-2 ) + ' kr',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25.0,
+                              color: Colors.red,
+                            ),
+                          ),
+                          Spacer(),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.person,
+                                  color: Colors.lightBlue,
+                                ),
+                                Flexible(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: Text(
+                                      //Selger
+                                      annonse.toString().substring(annonse.toString().indexOf('Bruker:') + 7, annonse.toString().indexOf('}')),
+                                      style: TextStyle(
+                                        color: Colors.lightBlue,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),

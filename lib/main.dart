@@ -8,6 +8,7 @@ import 'package:bachelor/screens/create_screen.dart';
 import 'package:bachelor/screens/search_screen.dart';
 import 'package:bachelor/screens/profile_settings_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:bachelor/screens/search_result_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

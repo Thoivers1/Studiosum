@@ -7,9 +7,7 @@ import 'package:bachelor/components/bottom_appBar.dart';
 import 'package:bachelor/constants.dart';
 import 'package:bachelor/components/rounded_button.dart';
 import 'package:bachelor/storage_service.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:uuid/uuid.dart';
 
 late  User loggedInUser;
@@ -276,10 +274,22 @@ class _CreateScreenState extends State<CreateScreen> {
                   switch (valueSelectedByUser){
                     case 'Bergen': {
                       changeDoc((snapshot.data! as QuerySnapshot).docs[0].reference.id.toString(), 'studie');
+                      setState(() {
+                        skoleId = null;
+                        retningId = null;
+                        semesterId = null;
+                        fagId = null;
+                      });
                     }
                     break;
                     case 'Trondheim': {
                       changeDoc((snapshot.data! as QuerySnapshot).docs[1].reference.id.toString(), 'studie');
+                      setState(() {
+                        skoleId = null;
+                        retningId = null;
+                        semesterId = null;
+                        fagId = null;
+                      });
                     }
                   }
                 },
@@ -322,8 +332,12 @@ class _CreateScreenState extends State<CreateScreen> {
                           switch (valueSelectedByUser){
                             case 'Høgskulen ved Vestlandet':
                               {
-                                changeDoc(
-                                    (snapshot.data! as QuerySnapshot).docs[0].reference.id.toString(), 'studieRetning');
+                                changeDoc((snapshot.data! as QuerySnapshot).docs[0].reference.id.toString(), 'studieRetning');
+                                setState(() {
+                                  retningId = null;
+                                  semesterId = null;
+                                  fagId = null;
+                                });
                               }
                               break;
                           }
@@ -371,6 +385,10 @@ class _CreateScreenState extends State<CreateScreen> {
                             {
                               changeDoc(
                                   (snapshot.data! as QuerySnapshot).docs[0].reference.id.toString(), 'semester');
+                              setState(() {
+                                semesterId = null;
+                                fagId = null;
+                              });
                             }
                             break;
                         }
@@ -419,7 +437,28 @@ class _CreateScreenState extends State<CreateScreen> {
                           case '1. Semester':
                             {
                               changeDoc(
+                                  (snapshot.data! as QuerySnapshot).docs[2].reference.id.toString(), 'fag');
+                              setState(() {
+                                fagId = null;
+                              });
+                            }
+                            break;
+                          case '2. Semester':
+                            {
+                              changeDoc(
+                                  (snapshot.data! as QuerySnapshot).docs[1].reference.id.toString(), 'fag');
+                              setState(() {
+                                fagId = null;
+                              });
+                            }
+                            break;
+                          case '3. Semester':
+                            {
+                              changeDoc(
                                   (snapshot.data! as QuerySnapshot).docs[0].reference.id.toString(), 'fag');
+                              setState(() {
+                                fagId = null;
+                              });
                             }
                             break;
                         }
