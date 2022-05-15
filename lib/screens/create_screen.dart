@@ -224,24 +224,6 @@ class _CreateScreenState extends State<CreateScreen> {
                     isPressed = true;
                   });
 
-                  /*
-                  FutureBuilder(
-                    future: storage.downloadURL('madelyn.jpg'),
-                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      if(snapshot.connectionState == ConnectionState.done && snapshot.hasData){
-                        return Container(
-                          width: 300,
-                          height: 250,
-                          child: Image.network(
-                            snapshot.data!,
-                            fit: BoxFit.cover,
-                          ));
-                      }
-                      if(snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData){
-                        return CircularProgressIndicator();
-                      }
-                      return Container();
-                    }); */
                 },
 
                 icon: (!isPressed) ? Icon(Icons.camera_alt) : Icon(Icons.check),

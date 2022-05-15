@@ -23,13 +23,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    getCurrentUser().whenComplete((){
 
       setState(() {
+        getUsername();
         getCurrentUser();
         //findUserDoc();
-        getUsername();
-      });
     });
   }
 
@@ -74,7 +72,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               width: 100.0,
               ),
             Center(
-              child: Text('Ola Normann', style: TextStyle(
+              //users.toString().substring(users.toString().indexOf('FirstName:') + 10, users.toString().indexOf('LastName') - 2)
+              child: TextFormField(users.toString().substring(users.toString().indexOf('FirstName:') + 10, users.toString().indexOf('LastName') - 2), style: TextStyle(
                 fontSize: 25.0,
               ),),
             ),
