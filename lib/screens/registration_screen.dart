@@ -30,7 +30,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     const uuid = Uuid();
     String id = uuid.v1();
     final docUser = FirebaseFirestore.instance.collection('Users')
-        .doc('cdTjq5BdAac1ILNYrivr');
+        .doc(id);
 
     final data = {
       'Email': email,
@@ -40,7 +40,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     await docUser.set(data);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +87,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 height: 8.0,
               ),
               TextField(
+                obscureText: true,
                 textAlign: TextAlign.center,
                 onChanged: (value) {
                   password = value;
@@ -126,8 +126,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         Navigator.pushNamed(context, HomeScreen.id);
                       }
                     } else {
-                      AlertDialog(
-                          title: Text('Passord matcher ikke'));
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Passord ikke like'),
+                            );
+                          });
                     }
 
                     setState(() {

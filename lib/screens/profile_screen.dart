@@ -1,11 +1,62 @@
+import 'dart:math';
+
 import 'package:bachelor/screens/profile_settings_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bachelor/components/profileButton.dart';
 import 'package:bachelor/components/bottom_appBar.dart';
 
-class ProfileScreen extends StatelessWidget {
+late User loggedInUser;
+
+class ProfileScreen extends StatefulWidget {
 
   static const String id = 'profile_screen';
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  final _auth = FirebaseAuth.instance;
+  List<Object?> users = [];
+
+  @override
+  void initState() {
+    getCurrentUser().whenComplete((){
+
+      setState(() {
+        getCurrentUser();
+        //findUserDoc();
+        getUsername();
+      });
+    });
+  }
+
+  getCurrentUser() async{
+    try {
+      final user = await _auth.currentUser;
+      if (user != null) {
+        loggedInUser = user;
+      }
+    } catch (e){
+      print(e);
+    }
+  }
+  getUsername() async{
+    await FirebaseFirestore.instance
+        .collectionGroup('Users')
+        .where('Email', isEqualTo: loggedInUser.email)
+        .get()
+        .then((QuerySnapshot snapshot){
+      snapshot.docs.forEach((DocumentSnapshot doc){
+        print(doc.data());
+        setState(() {
+          this.users.add(doc.data());
+        });
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
               width: 100.0,
               ),
             Center(
-              child: Text('Ola Nordmann', style: TextStyle(
+              child: Text('Ola Normann', style: TextStyle(
                 fontSize: 25.0,
               ),),
             ),

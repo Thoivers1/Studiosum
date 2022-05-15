@@ -84,18 +84,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 200,
                       height: 42,
                       onPressed: () async {
-                        setState(() {
-                          showSpinner = true;
-                        });
                         try {
                           final user = await _auth.signInWithEmailAndPassword(
                               email: email, password: password);
                           if (user != null) {
                             Navigator.pushNamed(context, HomeScreen.id);
                           }
-                          showSpinner = false;
                         } catch(e){
-                          print(e);
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Innloggingsinformasjon stemmer ikke'),
+                                );
+                              });
                         }
                       },),
                   ],
