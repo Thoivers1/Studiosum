@@ -8,7 +8,6 @@ import 'package:bachelor/components/profileButton.dart';
 import 'package:bachelor/components/bottom_appBar.dart';
 
 late User loggedInUser;
-
 class ProfileScreen extends StatefulWidget {
 
   static const String id = 'profile_screen';

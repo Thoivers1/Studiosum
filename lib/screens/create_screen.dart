@@ -80,28 +80,6 @@ class _CreateScreenState extends State<CreateScreen> {
     });
   }
 
-  void changeDropItemSelected(String? newValueSelected, String id){
-    setState(() {
-      switch(id){
-        case 'book': {
-          this.bookId = newValueSelected;
-        }break;
-        case 'skole': {
-          this.skoleId = newValueSelected;
-        }break;
-        case 'retning': {
-          this.retningId = newValueSelected;
-        }break;
-        case 'semester': {
-          this.semesterId = newValueSelected;
-        }break;
-        case 'fag': {
-          this.fagId = newValueSelected;
-        }
-      }
-    });
-  }
-
   Future addToFirebase ({required String tittel, required String beskrivelse, required String pris}) async {
     const uuid = Uuid();
     String id = uuid.v1();
@@ -131,7 +109,7 @@ class _CreateScreenState extends State<CreateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(textWidget:Text('studiosum'), height: 120.0, backArrow: false, logoSize: 40.0,),
+      appBar: appBar(textWidget:Text('Studiosum'), height: 120.0, backArrow: false, logoSize: 40.0,),
       bottomNavigationBar: bottomAppBar(),
       body: Column(
         children: <Widget>[

@@ -15,19 +15,19 @@ class SearchResultScreen extends StatefulWidget {
 
   static const String id = 'search_result_screen';
 
-  final String? skoleDoc;
-  final String? retningDoc;
+  final String? schoolDoc;
+  final String? studyDoc;
   final String? semesterDoc;
   final String? fagDoc;
-  final String? annonseDoc;
+  final String? adDoc;
 
   const SearchResultScreen({
     Key? key,
-    this.skoleDoc,
-    this.retningDoc,
+    this.schoolDoc,
+    this.studyDoc,
     this.semesterDoc,
     this.fagDoc,
-    this.annonseDoc,
+    this.adDoc,
 }) : super (key: key);
 
   @override
@@ -54,45 +54,36 @@ void getCurrentUser() async{
 
 class _SearchResultScreenState extends State<SearchResultScreen> {
 
-  late int antallAnnonser;
-  List<Object?> annonser = [];
+  late int nrOfAds;
+  List<Object?> ads = [];
 
   @override
   void initState(){
-    getAnnonse();
+    getAds();
   }
 
-  getAnnonse() async{
+  getAds() async{
       await FirebaseFirestore.instance.collection('Books')
-          .doc(widget.skoleDoc)
+          .doc(widget.schoolDoc)
           .collection('Skole')
-          .doc(widget.retningDoc)
+          .doc(widget.studyDoc)
           .collection('Studieretning')
           .doc(widget.semesterDoc)
           .collection('Semester')
           .doc(widget.fagDoc)
           .collection('Fag')
-          .doc(widget.annonseDoc)
+          .doc(widget.adDoc)
           .collection('Annonse')
           .get()
           .then((QuerySnapshot snapshot) {
         snapshot.docs.forEach((DocumentSnapshot doc) {
           //print(doc.data());
           setState(() {
-            this.annonser.add(doc.data());
+            this.ads.add(doc.data());
           });
         });
       });
   }
-
-  /*
-  getBooks(){
-    bookRef.get().then((QuerySnapshot snapshot){
-      snapshot.docs.forEach((DocumentSnapshot doc){
-        print(doc.data());
-      });
-    });
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -110,12 +101,12 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
         child: ListView(
           children: <Widget>[
             Center(
-              child: Text('Ditt søk fant (${annonser.length}) bøker til salgs:', style: TextStyle(
+              child: Text('Ditt søk fant (${ads.length}) bøker til salgs:', style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 17.0,
               ),),
             ),
-            for(var annonse in annonser) GestureDetector(
+            for(var annonse in ads) GestureDetector(
               onTap: (){
                 print('test');
               },

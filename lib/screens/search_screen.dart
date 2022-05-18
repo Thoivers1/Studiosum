@@ -20,19 +20,15 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
 
-  late String tittel;
-  late String beskrivelse;
-  late String pris;
   bool isPressed = false;
-
-  String? studieStedDoc;
-  String? studieRetningDoc;
+  String? cityDoc;
+  String? studyDoc;
   String? semesterDoc;
   String? fagDoc;
-  String? annonseDoc;
+  String? adDoc;
 
   String? bookId;
-  String? skoleId;
+  String? schoolId;
   String? retningId;
   String? semesterId;
   String? fagId;
@@ -45,67 +41,57 @@ class _SearchScreenState extends State<SearchScreen> {
     getCurrentUser();
     isPressed = false;
   }
-  void getCurrentUser() async{
+
+  void getCurrentUser() async {
     try {
       final user = await _auth.currentUser;
       if (user != null) {
         loggedInUser = user;
       }
-    } catch (e){
+    } catch (e) {
       print(e);
     }
   }
 
   void changeDoc(String newDoc, String id) {
     setState(() {
-      switch(id){
-        case 'studie': {
-          this.studieStedDoc = newDoc;
-        } break;
-        case 'studieRetning': {
-          this.studieRetningDoc = newDoc;
-        }break;
-        case 'semester': {
-          this.semesterDoc = newDoc;
-        } break;
-        case 'fag': {
-          this.fagDoc = newDoc;
-        }break;
-        case 'annonse': {
-          this.annonseDoc = newDoc;
-        }break;
+      switch (id) {
+        case 'studie':
+          {
+            this.cityDoc = newDoc;
+          }
+          break;
+        case 'studieRetning':
+          {
+            this.studyDoc = newDoc;
+          }
+          break;
+        case 'semester':
+          {
+            this.semesterDoc = newDoc;
+          }
+          break;
+        case 'fag':
+          {
+            this.fagDoc = newDoc;
+          }
+          break;
+        case 'annonse':
+          {
+            this.adDoc = newDoc;
+          }
+          break;
       }
     });
   }
-
-  void changeDropItemSelected(String? newValueSelected, String id){
-    setState(() {
-      switch(id){
-        case 'book': {
-          bookId = newValueSelected;
-        }break;
-        case 'skole': {
-          skoleId = newValueSelected;
-        }break;
-        case 'retning': {
-          retningId = newValueSelected;
-        }break;
-        case 'semester': {
-          semesterId = newValueSelected;
-        }break;
-        case 'fag': {
-          fagId = newValueSelected;
-        }
-      }
-    });
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(textWidget:Text('studiosum'), height: 120.0, backArrow: false, logoSize: 40.0,),
+      appBar: appBar(textWidget: Text('Studiosum'),
+        height: 120.0,
+        backArrow: false,
+        logoSize: 40.0,),
       bottomNavigationBar: bottomAppBar(),
       body: Column(
         children: <Widget>[
@@ -119,7 +105,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance.collection('Books').snapshots(),
+                      stream: FirebaseFirestore.instance.collection('Books')
+                          .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData)
                           return Center(
@@ -128,33 +115,40 @@ class _SearchScreenState extends State<SearchScreen> {
 
                         return Container(
                           child: DropdownButtonFormField(
-                            decoration: kTextFieldDecoration.copyWith(hintText: ''),
+                            decoration: kTextFieldDecoration.copyWith(
+                                hintText: ''),
                             value: bookId,
                             isDense: true,
                             onChanged: (String? valueSelectedByUser) {
                               setState(() {
                                 bookId = valueSelectedByUser ?? "";
                               });
-                              switch (valueSelectedByUser){
-                                case 'Bergen': {
-                                  changeDoc((snapshot.data! as QuerySnapshot).docs[0].reference.id.toString(), 'studie');
-                                  setState(() {
-                                    skoleId = null;
-                                    retningId = null;
-                                    semesterId = null;
-                                    fagId = null;
-                                  });
-                                }
-                                break;
-                                case 'Trondheim': {
-                                  changeDoc((snapshot.data! as QuerySnapshot).docs[1].reference.id.toString(), 'studie');
-                                  setState(() {
-                                    skoleId = null;
-                                    retningId = null;
-                                    semesterId = null;
-                                    fagId = null;
-                                  });
-                                }
+                              switch (valueSelectedByUser) {
+                                case 'Bergen':
+                                  {
+                                    changeDoc((snapshot.data! as QuerySnapshot)
+                                        .docs[0].reference.id.toString(),
+                                        'studie');
+                                    setState(() {
+                                      schoolId = null;
+                                      retningId = null;
+                                      semesterId = null;
+                                      fagId = null;
+                                    });
+                                  }
+                                  break;
+                                case 'Trondheim':
+                                  {
+                                    changeDoc((snapshot.data! as QuerySnapshot)
+                                        .docs[1].reference.id.toString(),
+                                        'studie');
+                                    setState(() {
+                                      schoolId = null;
+                                      retningId = null;
+                                      semesterId = null;
+                                      fagId = null;
+                                    });
+                                  }
                               }
                             },
                             hint: Text('Velg studiested'),
@@ -175,7 +169,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection('Books')
-                          .doc(studieStedDoc)
+                          .doc(cityDoc)
                           .collection('Skole')
                           .snapshots(),
                       builder: (context, snapshot) {
@@ -186,17 +180,20 @@ class _SearchScreenState extends State<SearchScreen> {
 
                         return Container(
                           child: DropdownButtonFormField(
-                            decoration: kTextFieldDecoration.copyWith(hintText: ''),
-                            value: skoleId,
+                            decoration: kTextFieldDecoration.copyWith(
+                                hintText: ''),
+                            value: schoolId,
                             isDense: true,
                             onChanged: (String? valueSelectedByUser) {
                               setState(() {
-                                skoleId = valueSelectedByUser ?? "";
+                                schoolId = valueSelectedByUser ?? "";
                               });
-                              switch (valueSelectedByUser){
+                              switch (valueSelectedByUser) {
                                 case 'Høgskulen ved Vestlandet':
                                   {
-                                    changeDoc((snapshot.data! as QuerySnapshot).docs[0].reference.id.toString(), 'studieRetning');
+                                    changeDoc((snapshot.data! as QuerySnapshot)
+                                        .docs[0].reference.id.toString(),
+                                        'studieRetning');
                                     setState(() {
                                       retningId = null;
                                       semesterId = null;
@@ -224,9 +221,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection('Books')
-                          .doc(studieStedDoc)
+                          .doc(cityDoc)
                           .collection('Skole')
-                          .doc(studieRetningDoc)
+                          .doc(studyDoc)
                           .collection('Studieretning')
                           .snapshots(),
                       builder: (context, snapshot) {
@@ -237,18 +234,21 @@ class _SearchScreenState extends State<SearchScreen> {
 
                         return Container(
                           child: DropdownButtonFormField(
-                            decoration: kTextFieldDecoration.copyWith(hintText: ''),
+                            decoration: kTextFieldDecoration.copyWith(
+                                hintText: ''),
                             value: retningId,
                             isDense: true,
                             onChanged: (String? valueSelectedByUser) {
                               setState(() {
                                 retningId = valueSelectedByUser ?? "";
                               });
-                              switch (valueSelectedByUser){
+                              switch (valueSelectedByUser) {
                                 case 'Dataingeniør':
                                   {
                                     changeDoc(
-                                        (snapshot.data! as QuerySnapshot).docs[0].reference.id.toString(), 'semester');
+                                        (snapshot.data! as QuerySnapshot)
+                                            .docs[0].reference.id.toString(),
+                                        'semester');
                                     setState(() {
                                       semesterId = null;
                                       fagId = null;
@@ -275,9 +275,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection('Books')
-                          .doc(studieStedDoc)
+                          .doc(cityDoc)
                           .collection('Skole')
-                          .doc(studieRetningDoc)
+                          .doc(studyDoc)
                           .collection('Studieretning')
                           .doc(semesterDoc)
                           .collection('Semester')
@@ -290,18 +290,21 @@ class _SearchScreenState extends State<SearchScreen> {
 
                         return Container(
                           child: DropdownButtonFormField(
-                            decoration: kTextFieldDecoration.copyWith(hintText: ''),
+                            decoration: kTextFieldDecoration.copyWith(
+                                hintText: ''),
                             value: semesterId,
                             isDense: true,
                             onChanged: (String? valueSelectedByUser) {
                               setState(() {
                                 semesterId = valueSelectedByUser ?? "";
                               });
-                              switch (valueSelectedByUser){
+                              switch (valueSelectedByUser) {
                                 case '1. Semester':
                                   {
                                     changeDoc(
-                                        (snapshot.data! as QuerySnapshot).docs[2].reference.id.toString(), 'fag');
+                                        (snapshot.data! as QuerySnapshot)
+                                            .docs[2].reference.id.toString(),
+                                        'fag');
                                     setState(() {
                                       fagId = null;
                                     });
@@ -310,7 +313,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                 case '2. Semester':
                                   {
                                     changeDoc(
-                                        (snapshot.data! as QuerySnapshot).docs[1].reference.id.toString(), 'fag');
+                                        (snapshot.data! as QuerySnapshot)
+                                            .docs[1].reference.id.toString(),
+                                        'fag');
                                     setState(() {
                                       fagId = null;
                                     });
@@ -319,7 +324,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                 case '3. Semester':
                                   {
                                     changeDoc(
-                                        (snapshot.data! as QuerySnapshot).docs[0].reference.id.toString(), 'fag');
+                                        (snapshot.data! as QuerySnapshot)
+                                            .docs[0].reference.id.toString(),
+                                        'fag');
                                     setState(() {
                                       fagId = null;
                                     });
@@ -345,9 +352,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection('Books')
-                          .doc(studieStedDoc)
+                          .doc(cityDoc)
                           .collection('Skole')
-                          .doc(studieRetningDoc)
+                          .doc(studyDoc)
                           .collection('Studieretning')
                           .doc(semesterDoc)
                           .collection('Semester')
@@ -362,18 +369,21 @@ class _SearchScreenState extends State<SearchScreen> {
 
                         return Container(
                           child: DropdownButtonFormField(
-                            decoration: kTextFieldDecoration.copyWith(hintText: ''),
+                            decoration: kTextFieldDecoration.copyWith(
+                                hintText: ''),
                             value: fagId,
                             isDense: true,
                             onChanged: (String? valueSelectedByUser) {
                               setState(() {
                                 fagId = valueSelectedByUser ?? "";
                               });
-                              switch (valueSelectedByUser){
+                              switch (valueSelectedByUser) {
                                 case 'Dat100 - Grunnleggende programmering':
                                   {
                                     changeDoc(
-                                        (snapshot.data! as QuerySnapshot).docs[0].reference.id.toString(), 'annonse');
+                                        (snapshot.data! as QuerySnapshot)
+                                            .docs[0].reference.id.toString(),
+                                        'annonse');
                                   }
                                   break;
                               }
@@ -394,13 +404,20 @@ class _SearchScreenState extends State<SearchScreen> {
 
                 //SearchButton
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0, left: 150.0, right: 150.0),
+                  padding: const EdgeInsets.only(
+                      top: 8.0, left: 150.0, right: 150.0),
                   child: RoundedButton(
-                      widgetText: Text('Søk', style: TextStyle(color: Colors.white, fontSize: 20.0),),
+                      widgetText: Text('Søk',
+                        style: TextStyle(color: Colors.white, fontSize: 20.0),),
                       color: kColor,
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SearchResultScreen(skoleDoc: studieStedDoc, retningDoc: studieRetningDoc, semesterDoc: semesterDoc, fagDoc: fagDoc, annonseDoc: annonseDoc)
+                            builder: (context) =>
+                                SearchResultScreen(schoolDoc: cityDoc,
+                                    studyDoc: studyDoc,
+                                    semesterDoc: semesterDoc,
+                                    fagDoc: fagDoc,
+                                    adDoc: adDoc)
                         ));
                       },
                       width: 100.0,

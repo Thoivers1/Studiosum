@@ -45,7 +45,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBar(textWidget:Text('studiosum'), height: 120.0, backArrow: true, logoSize: 40.0,),
+      appBar: appBar(textWidget:Text('Studiosum'), height: 120.0, backArrow: true, logoSize: 40.0,),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: Padding(
@@ -60,7 +60,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 onChanged: (value) {
                   firstName = value;
                 },
-                decoration: kTextFieldDecoration.copyWith(hintText: 'First name:'),
+                decoration: kTextFieldDecoration.copyWith(hintText: 'Fornavn:'),
               ),
               SizedBox(
                 height: 8.0,
@@ -70,7 +70,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 onChanged: (value) {
                   lastName = value;
                 },
-                decoration: kTextFieldDecoration.copyWith(hintText: 'Last name:'),
+                decoration: kTextFieldDecoration.copyWith(hintText: 'Etternavn:'),
               ),
               SizedBox(
                 height: 8.0,

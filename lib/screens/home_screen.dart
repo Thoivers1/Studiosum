@@ -22,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   final _auth = FirebaseAuth.instance;
-  List<Object?> annonser = [];
+  List<Object?> ads = [];
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     getCurrentUser().whenComplete((){
       setState(() {
         getCurrentUser();
-        getAnnonse();
+        getAds();
       });
     });
   }
@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  getAnnonse() async{
+  getAds() async{
     await FirebaseFirestore.instance
         .collectionGroup('Annonse')
         .where('Bruker', isEqualTo: loggedInUser.email)
@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
           snapshot.docs.forEach((DocumentSnapshot doc){
             print(doc.data());
             setState(() {
-              this.annonser.add(doc.data());
+              this.ads.add(doc.data());
         });
       });
     });
@@ -141,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontWeight: FontWeight.bold,
               ),
             )),
-            for(var annonse in annonser) GestureDetector(
+            for(var annonse in ads) GestureDetector(
               onTap: (){
                 print('test');
               },

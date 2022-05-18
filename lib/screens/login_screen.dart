@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBar(textWidget:Text('studiosum'), height: 120.0, backArrow: true, logoSize: 40.0,),
+      appBar: appBar(textWidget:Text('Studiosum'), height: 120.0, backArrow: true, logoSize: 40.0,),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: Padding(
@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onChanged: (value) {
                         email = value;
                       },
-                      decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your email'),
+                      decoration: kTextFieldDecoration.copyWith(hintText: 'E-post'),
                     ),
                     SizedBox(
                       height: 8.0,
@@ -67,11 +67,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       onChanged: (value) {
                         password = value;
                       },
-                      decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your password'),
+                      decoration: kTextFieldDecoration.copyWith(hintText: 'Passord'),
                     ),
                     TextButton(
                         onPressed: (){
-
+                          _auth.sendPasswordResetEmail(email: email);
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Sendt passord-reset til: ' + email),
+                                );
+                              });
                         },
                         child: Align(
                             alignment: Alignment.centerLeft,
@@ -79,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
 
                     RoundedButton(
-                      widgetText: Text('Log in', style: TextStyle(color: Colors.white)),
+                      widgetText: Text('Logg in', style: TextStyle(color: Colors.white)),
                       color: kColor,
                       width: 200,
                       height: 42,
@@ -95,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text('Innloggingsinformasjon stemmer ikke'),
+                                  title: Text('Ugyldig innlogging'),
                                 );
                               });
                         }

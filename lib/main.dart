@@ -21,6 +21,7 @@ class Bachelor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //Creates routes for the diffrent screens
       initialRoute: WelcomeScreen.id,
       routes: {
         WelcomeScreen.id : (context) => WelcomeScreen(),

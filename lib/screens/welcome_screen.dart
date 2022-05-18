@@ -20,7 +20,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBar(textWidget:Text('studiosum'), height: 250.0, backArrow: true, logoSize: 40.0,),
+      appBar: appBar(textWidget:Text('Studiosum'), height: 250.0, backArrow: true, logoSize: 40.0,),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(30.0),
@@ -33,7 +33,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 height: 100.0,
               ),
               RoundedButton(
-                  widgetText: Text('Log in', style: TextStyle(color: Colors.white)),
+                  widgetText: Text('Logg in', style: TextStyle(color: Colors.white)),
                   color: kColor,
                   width: 500,
                   height: 42,
@@ -41,7 +41,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     Navigator.pushNamed(context, LoginScreen.id);
                   },),
               RoundedButton(
-                  widgetText: Text('Register', style: TextStyle(color: Colors.white)),
+                  widgetText: Text('Registrer deg', style: TextStyle(color: Colors.white)),
                   color: kColor,
                   width: 500,
                   height: 42,
