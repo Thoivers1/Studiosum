@@ -1,12 +1,11 @@
-import 'package:auto_size_text/auto_size_text.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../components/appBar.dart';
 import '../components/bottom_appBar.dart';
-import 'package:bachelor/screens/search_screen.dart';
+import 'package:bachelor/screens/ad_screen.dart';
 import 'create_screen.dart';
 
 final bookRef = FirebaseFirestore.instance.collection('Books');
@@ -108,7 +107,16 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
             ),
             for(var annonse in ads) GestureDetector(
               onTap: (){
-                print('test');
+                for(int i = 0; i <= ads.length+1; i++){
+                  if(ads[i].toString().substring(annonse.toString().indexOf('Tittel:') + 7, annonse.toString().indexOf('Pris:')-2) ==  annonse.toString().substring(annonse.toString().indexOf('Tittel:') + 7, annonse.toString().indexOf('Pris:')-2)){
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            AdScreen(
+                              ads: ads[i],
+                            )
+                    ));
+                  }
+                }
               },
               child: Container(
                 margin: const EdgeInsets.all(10.0),

@@ -6,8 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bachelor/constants.dart';
 import 'package:bachelor/components/bottom_appBar.dart';
 import 'package:bachelor/screens/create_screen.dart';
-import 'package:bachelor/screens/search_screen.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:flutter/services.dart';
+import 'package:bachelor/screens/ad_screen.dart';
 
 late  User loggedInUser;
 
@@ -22,7 +22,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   final _auth = FirebaseAuth.instance;
+  String? isbnVal;
   List<Object?> ads = [];
+  int annonseId = 0;
+
 
   @override
   void initState() {
@@ -41,7 +44,6 @@ class _HomeScreenState extends State<HomeScreen> {
       final user = await _auth.currentUser;
       if (user != null) {
         loggedInUser = user;
-        print(loggedInUser.email);
       }
     } catch (e){
       print(e);
@@ -55,7 +57,6 @@ class _HomeScreenState extends State<HomeScreen> {
         .get()
         .then((QuerySnapshot snapshot){
           snapshot.docs.forEach((DocumentSnapshot doc){
-            print(doc.data());
             setState(() {
               this.ads.add(doc.data());
         });
@@ -82,8 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
               width: 300,
               child: TextField(
                 textAlign: TextAlign.center,
+                inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[<\>\&\%\!]')),],
                 onChanged: (value) {
-
+                  isbnVal = value;
                 },
                 decoration: kTextFieldDecoration.copyWith(hintText: 'Søk etter bok eller ISBN'),
               ),
@@ -96,8 +98,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.blue,
                 borderRadius: BorderRadius.circular(20.0),
                 child: MaterialButton(
-                  onPressed: (){
-
+                  onPressed: () async {
+                    //ISBN forstå programmering med java - 9788215031286
+                        await FirebaseFirestore.instance.collectionGroup('Books')
+                        .where('ISBN', isEqualTo: isbnVal).get()
+                            .then((QuerySnapshot snapshot){
+                              snapshot.docs.forEach((DocumentSnapshot doc){
+                                print(doc.data());
+                          });
+                        }) ;
                   },
                   minWidth: 50.0,
                   height: 50.0,
@@ -129,8 +138,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text('Opprett ny annonse', style: TextStyle(color: Colors.white)),
                 ],
               ),
-              onPressed: (){
+              onPressed: () async{
                 Navigator.pushNamed(context, CreateScreen.id);
+
+                /*
+
+
+               await FirebaseFirestore.instance.collection('Books').doc('cHCdFIAwoJjxYr6BqcWX').collection('Skole').doc('OmB0JvM4mDZxlvwcoqZn').collection('Studieretning').doc('3UWQwmKyX6hIAelNMeen').collection('Semester').doc('CYkjdjlQZjWnAXSX0pyf')
+                   .collection('Fag').doc('XlwdtJ53hmPUF5yJX8E5').collection('Annonse').doc('a2c0db70-cec5-11ec-964b-6994aade6d22').delete();
+               print('done');
+
+                 */
               },
             ),
 
@@ -141,9 +159,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontWeight: FontWeight.bold,
               ),
             )),
-            for(var annonse in ads) GestureDetector(
+
+            for(var annonse in ads)
+              GestureDetector(
               onTap: (){
-                print('test');
+                for(int i = 0; i <= ads.length; i++){
+                  if(ads[i].toString().substring(annonse.toString().indexOf('Tittel:') + 7, annonse.toString().indexOf('Pris:')-2) ==  annonse.toString().substring(annonse.toString().indexOf('Tittel:') + 7, annonse.toString().indexOf('Pris:')-2)){
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            AdScreen(
+                              ads: ads[i],
+                            )
+                    ));
+                  }
+                }
               },
               child: Container(
                 margin: const EdgeInsets.all(10.0),
@@ -173,13 +202,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           FittedBox(
                             fit: BoxFit.contain,
-                            child: Text(
-                              //Tittel
-                              annonse.toString().substring(annonse.toString().indexOf('Tittel:') + 7, annonse.toString().indexOf('Pris:')-2),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.0,
-                              ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  //Tittel
+                                  annonse.toString().substring(annonse.toString().indexOf('Tittel:') + 7, annonse.toString().indexOf('Pris:')-2),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           const SizedBox(

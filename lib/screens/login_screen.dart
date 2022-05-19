@@ -4,6 +4,7 @@ import 'package:bachelor/components/rounded_button.dart';
 import 'package:bachelor/components/appBar.dart';
 import 'package:bachelor/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -53,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextField(
                       keyboardType: TextInputType.emailAddress,
                       textAlign: TextAlign.center,
+                      inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[<\>\&\%\!]')),],
                       onChanged: (value) {
                         email = value;
                       },
@@ -64,6 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextField(
                       obscureText: true,
                       textAlign: TextAlign.center,
+                      inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[<\>\&\%\!]')),],
                       onChanged: (value) {
                         password = value;
                       },

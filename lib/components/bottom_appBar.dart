@@ -11,10 +11,6 @@ class bottomAppBar extends StatefulWidget {
 
 class _bottomAppBarState extends State<bottomAppBar> {
 
-  bool homePressed = false;
-  bool searchPressed = false;
-  bool profilePressed = false;
-
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
@@ -31,15 +27,12 @@ class _bottomAppBarState extends State<bottomAppBar> {
           Padding(
             padding: EdgeInsets.all(15.0),
             child: IconButton(
-              icon: Icon(Icons.search, color: searchPressed ? Colors.black : Colors.blueGrey),
+              icon: Icon(Icons.search, color: Colors.blueGrey),
               iconSize: 35.0,
               onPressed: (){
-                setState(() {
-                  searchPressed = !searchPressed;
-                  homePressed = false;
-                  profilePressed = false;
-                });
-                Navigator.pushNamed(context, SearchScreen.id);
+                  if(ModalRoute.of(context)?.settings.name != SearchScreen.id) {
+                    Navigator.pushNamed(context, SearchScreen.id);
+                  }
               },
             ),
           ),
@@ -47,15 +40,12 @@ class _bottomAppBarState extends State<bottomAppBar> {
           Padding(
             padding: EdgeInsets.all(15.0),
             child: IconButton(
-              icon: Icon(Icons.home, color: homePressed ? Colors.black : Colors.blueGrey),
+              icon: Icon(Icons.home, color: Colors.blueGrey),
               iconSize: 35.0,
               onPressed: (){
-                setState(() {
-                  homePressed = !homePressed;
-                  searchPressed = false;
-                  profilePressed = false;
-                });
-                Navigator.pushNamed(context, HomeScreen.id);
+                if(ModalRoute.of(context)?.settings.name != HomeScreen.id) {
+                  Navigator.pushNamed(context, HomeScreen.id);
+                }
               },
             ),
           ),
@@ -63,15 +53,12 @@ class _bottomAppBarState extends State<bottomAppBar> {
           Padding(
             padding: EdgeInsets.all(15.0),
             child: IconButton(
-              icon: Icon(Icons.person, color: profilePressed ? Colors.black : Colors.blueGrey),
+              icon: Icon(Icons.person, color: Colors.blueGrey),
               iconSize: 35.0,
               onPressed: (){
-                setState(() {
-                  profilePressed = !profilePressed;
-                  searchPressed = false;
-                  homePressed = false;
-                });
-                Navigator.pushNamed(context, ProfileScreen.id);
+                  if(ModalRoute.of(context)?.settings.name != ProfileScreen.id) {
+                    Navigator.pushNamed(context, ProfileScreen.id);
+                  }
               },
             ),
           ),

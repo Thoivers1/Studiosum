@@ -90,7 +90,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       appBar: appBar(textWidget: Text('Studiosum'),
         height: 120.0,
-        backArrow: false,
+        backArrow: true,
         logoSize: 40.0,),
       bottomNavigationBar: bottomAppBar(),
       body: Column(

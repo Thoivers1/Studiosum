@@ -8,7 +8,8 @@ import 'package:bachelor/screens/create_screen.dart';
 import 'package:bachelor/screens/search_screen.dart';
 import 'package:bachelor/screens/profile_settings_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:bachelor/screens/search_result_screen.dart';
+import 'package:bachelor/screens/contact_screen.dart';
+import 'package:bachelor/screens/edit_profile_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +33,9 @@ class Bachelor extends StatelessWidget {
         CreateScreen.id: (context) => CreateScreen(),
         SearchScreen.id: (context) => SearchScreen(),
         ProfileSettingsScreen.id: (context) => ProfileSettingsScreen(),
+        ContactScreen.id: (context) => ContactScreen(),
+        EditProfileScreen.id: (contect) => EditProfileScreen(),
+        //AdScreen.id: (context) => AdScreen(),
       },
     );
   }

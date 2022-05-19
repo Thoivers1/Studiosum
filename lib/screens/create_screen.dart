@@ -8,6 +8,7 @@ import 'package:bachelor/constants.dart';
 import 'package:bachelor/components/rounded_button.dart';
 import 'package:bachelor/storage_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:uuid/uuid.dart';
 
 late  User loggedInUser;
@@ -109,7 +110,7 @@ class _CreateScreenState extends State<CreateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(textWidget:Text('Studiosum'), height: 120.0, backArrow: false, logoSize: 40.0,),
+      appBar: appBar(textWidget:Text('Studiosum'), height: 120.0, backArrow: true, logoSize: 40.0,),
       bottomNavigationBar: bottomAppBar(),
       body: Column(
         children: <Widget>[
@@ -131,6 +132,7 @@ class _CreateScreenState extends State<CreateScreen> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               textAlign: TextAlign.center,
+              inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[<\>\&\%\!]')),],
               onChanged: (value) {
                 setState(() {
                   this.tittel = value;
@@ -143,6 +145,7 @@ class _CreateScreenState extends State<CreateScreen> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               textAlign: TextAlign.center,
+              inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[<\>\&\%\!]')),],
               onChanged: (value) {
                 setState(() {
                   this.beskrivelse = value;
@@ -159,6 +162,7 @@ class _CreateScreenState extends State<CreateScreen> {
                 width: 100.0,
                 child: TextField(
                   textAlign: TextAlign.center,
+                  inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[<\>\&\%\!]')),],
                   onChanged: (value) {
                     setState(() {
                       this.pris = value;

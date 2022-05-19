@@ -5,6 +5,7 @@ import 'package:bachelor/components/appBar.dart';
 import 'package:bachelor/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bachelor/screens/home_screen.dart';
+import 'package:flutter/services.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:uuid/uuid.dart';
 
@@ -57,6 +58,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               SizedBox(height: 50,),
               TextField(
                 textAlign: TextAlign.center,
+                inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[<\>\&\%\!]')),],
                 onChanged: (value) {
                   firstName = value;
                 },
@@ -67,6 +69,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               TextField(
                 textAlign: TextAlign.center,
+                inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[<\>\&\%\!]')),],
                 onChanged: (value) {
                   lastName = value;
                 },
@@ -77,6 +80,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               TextField(
                 keyboardType: TextInputType.emailAddress,
+                inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[<\>\&\%\!]')),],
                 textAlign: TextAlign.center,
                 onChanged: (value) {
                   email = value;
@@ -89,6 +93,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               TextField(
                 obscureText: true,
                 textAlign: TextAlign.center,
+                inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[<\>\&\%\!]')),],
                 onChanged: (value) {
                   password = value;
                 },
@@ -100,6 +105,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               TextField(
                 obscureText: true,
                 textAlign: TextAlign.center,
+                inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[<\>\&\%\!]')),],
                 onChanged: (value) {
                   password2 = value;
                 },

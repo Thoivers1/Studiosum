@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:bachelor/screens/profile_settings_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:bachelor/components/profileButton.dart';
 import 'package:bachelor/components/bottom_appBar.dart';
 
+import '../constants.dart';
+
 late User loggedInUser;
+
 class ProfileScreen extends StatefulWidget {
 
   static const String id = 'profile_screen';
@@ -18,6 +20,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final _auth = FirebaseAuth.instance;
+  String? username = '';
   List<Object?> users = [];
 
   @override
@@ -26,7 +29,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         getUsername();
         getCurrentUser();
-        //findUserDoc();
     });
   }
 
@@ -40,6 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print(e);
     }
   }
+
   getUsername() async{
     await FirebaseFirestore.instance
         .collectionGroup('Users')
@@ -47,9 +50,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         .get()
         .then((QuerySnapshot snapshot){
       snapshot.docs.forEach((DocumentSnapshot doc){
-        print(doc.data());
         setState(() {
           this.users.add(doc.data());
+          username = users.toString().substring(users.toString().indexOf('FirstName:') + 10, users.toString().indexOf('LastName') - 2);
         });
       });
     });
@@ -58,25 +61,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+      automaticallyImplyLeading: true,
+        backgroundColor: kColor,
+      ),
       bottomNavigationBar: bottomAppBar(),
       body: Padding(
-        padding: const EdgeInsets.only(top: 15.0, left: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        padding: const EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0),
+        child: ListView(
           children: <Widget>[
-            SizedBox(height: 50.0,),
             Image(
               image: AssetImage('images/profile.png'),
               height: 100.0,
               width: 100.0,
               ),
             Center(
-              //users.toString().substring(users.toString().indexOf('FirstName:') + 10, users.toString().indexOf('LastName') - 2)
-              child: Text(users.toString().substring(users.toString().indexOf('FirstName:') + 10, users.toString().indexOf('LastName') - 2), style: TextStyle(
+              //child: Text(users.toString().substring(users.toString().indexOf('FirstName:') + 10, users.toString().indexOf('LastName') - 2), style: TextStyle(
+              //                 fontSize: 25.0,
+              child: Text(username!, style: TextStyle(
                 fontSize: 25.0,
               ),),
             ),
-            SizedBox(height: 100.0,),
+            SizedBox(height: 50.0,),
             profileButton(
               icon: Icons.handshake,
               text: 'Mine kjøp',
