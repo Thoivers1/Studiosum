@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bachelor/components/profileButton.dart';
 import 'package:bachelor/components/bottom_appBar.dart';
+import 'package:bachelor/screens/home_screen.dart';
 
 import '../constants.dart';
 
@@ -24,11 +25,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<Object?> users = [];
 
   @override
-  void initState() {
+  void initState(){
 
       setState(() {
         getUsername();
-        getCurrentUser();
     });
   }
 
@@ -44,6 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   getUsername() async{
+    await getCurrentUser();
     await FirebaseFirestore.instance
         .collectionGroup('Users')
         .where('Email', isEqualTo: loggedInUser.email)

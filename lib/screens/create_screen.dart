@@ -228,6 +228,7 @@ class _CreateScreenState extends State<CreateScreen> {
 
             return Container(
               child: DropdownButtonFormField(
+                isExpanded: true,
                 decoration: kTextFieldDecoration.copyWith(hintText: ''),
                 value: bookId,
                 isDense: true,
@@ -473,7 +474,15 @@ class _CreateScreenState extends State<CreateScreen> {
                           case 'Dat100 - Grunnleggende programmering':
                             {
                               changeDoc(
-                                  (snapshot.data! as QuerySnapshot).docs[0].reference.id.toString(), 'annonse');
+                                  (snapshot.data! as QuerySnapshot).docs[1].reference.id.toString(), 'annonse');
+                            }
+                            break;
+                          case 'Logiske metoder : kunsten å tenke abstrakt og matematisk':
+                            {
+                              changeDoc(
+                                  (snapshot.data! as QuerySnapshot)
+                                      .docs[0].reference.id.toString(),
+                                  'annonse');
                             }
                             break;
                         }

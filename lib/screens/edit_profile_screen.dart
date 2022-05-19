@@ -25,13 +25,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late String email;
   late String firstName;
   late String lastName;
-  late String password;
 
   @override
   void initState() {
 
     setState(() {
-      getCurrentUser();
       getUsername();
     });
   }
@@ -48,6 +46,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   getUsername() async{
+    await getCurrentUser();
     await FirebaseFirestore.instance
         .collectionGroup('Users')
         .where('Email', isEqualTo: loggedInUser.email)
@@ -137,7 +136,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         'lastName' : lastName,
                         'Email' : email,
                     });
-                  Navigator.pop(context);
+                  int count = 0;
+                  Navigator.popUntil(context, (route) {
+                    return count++ == 3;
+                  });
                   }),
           ],
         ),

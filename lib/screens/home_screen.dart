@@ -1,3 +1,4 @@
+import 'package:bachelor/screens/search_result_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:bachelor/components/appBar.dart';
@@ -9,7 +10,7 @@ import 'package:bachelor/screens/create_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:bachelor/screens/ad_screen.dart';
 
-late  User loggedInUser;
+late User loggedInUser;
 
 class HomeScreen extends StatefulWidget {
 
@@ -22,10 +23,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   final _auth = FirebaseAuth.instance;
-  String? isbnVal;
+  String? isbnVal = '';
   List<Object?> ads = [];
-  int annonseId = 0;
-
 
   @override
   void initState() {
@@ -43,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       final user = await _auth.currentUser;
       if (user != null) {
-        loggedInUser = user;
+        return user;
       }
     } catch (e){
       print(e);
@@ -99,15 +98,49 @@ class _HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(20.0),
                 child: MaterialButton(
                   onPressed: () async {
-                    //ISBN forstå programmering med java - 9788215031286
-                        await FirebaseFirestore.instance.collectionGroup('Books')
+                    //ISBN forstå programmering med java = 9788215031286
+                    //ISBN matte = 9788215022741
+                        await FirebaseFirestore.instance.collectionGroup('Fag')
                         .where('ISBN', isEqualTo: isbnVal).get()
                             .then((QuerySnapshot snapshot){
                               snapshot.docs.forEach((DocumentSnapshot doc){
-                                print(doc.data());
+
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        SearchResultScreen(schoolDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 7, doc.reference.path.toString().indexOf('Skole')-1),
+                                            studyDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 34, doc.reference.path.toString().indexOf('Studieretning')-1),
+                                            semesterDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 69, doc.reference.path.toString().indexOf('Semester')-1),
+                                            fagDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 99, doc.reference.path.toString().indexOf('Fag')-1),
+                                            adDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 124))
+                                ));
+                                /*
+                                //entire path
+                                print(doc.reference.path);
+                                //Books
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 1, doc.reference.path.toString().indexOf('/')));
+                                //doc
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 7, doc.reference.path.toString().indexOf('Skole')-1));
+                                //Skole
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 28, doc.reference.path.toString().indexOf('Skole')+5));
+                                //doc
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 34, doc.reference.path.toString().indexOf('Studieretning')-1));
+                                //Studieretning
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 55, doc.reference.path.toString().indexOf('Studieretning')+13));
+                                //doc
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 69, doc.reference.path.toString().indexOf('Semester')-1));
+                                //Semester
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 90, doc.reference.path.toString().indexOf('Semester')+8));
+                                //doc
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 99, doc.reference.path.toString().indexOf('Fag')-1));
+                                //Fag
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 120, doc.reference.path.toString().indexOf('Fag')+3));
+                                //doc
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 124));
+
+                                 */
                           });
-                        }) ;
-                  },
+                        });
+                        },
                   minWidth: 50.0,
                   height: 50.0,
                   child: Icon(
@@ -202,17 +235,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           FittedBox(
                             fit: BoxFit.contain,
-                            child: Row(
-                              children: [
-                                Text(
-                                  //Tittel
-                                  annonse.toString().substring(annonse.toString().indexOf('Tittel:') + 7, annonse.toString().indexOf('Pris:')-2),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0,
-                                  ),
-                                ),
-                              ],
+                            child: Text(
+                              //Tittel
+                              annonse.toString().substring(annonse.toString().indexOf('Tittel:') + 7, annonse.toString().indexOf('Pris:')-2),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                              ),
                             ),
                           ),
                           const SizedBox(

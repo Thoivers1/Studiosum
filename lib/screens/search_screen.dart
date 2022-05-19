@@ -369,6 +369,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
                         return Container(
                           child: DropdownButtonFormField(
+                            isExpanded: true,
                             decoration: kTextFieldDecoration.copyWith(
                                 hintText: ''),
                             value: fagId,
@@ -379,6 +380,14 @@ class _SearchScreenState extends State<SearchScreen> {
                               });
                               switch (valueSelectedByUser) {
                                 case 'Dat100 - Grunnleggende programmering':
+                                  {
+                                    changeDoc(
+                                        (snapshot.data! as QuerySnapshot)
+                                            .docs[1].reference.id.toString(),
+                                        'annonse');
+                                  }
+                                  break;
+                                case 'Logiske metoder : kunsten å tenke abstrakt og matematisk':
                                   {
                                     changeDoc(
                                         (snapshot.data! as QuerySnapshot)

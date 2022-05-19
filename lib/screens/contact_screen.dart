@@ -27,7 +27,6 @@ class _ContactScreenState extends State<ContactScreen> {
   void initState() {
 
     setState(() {
-      getCurrentUser();
       getUsername();
     });
   }
@@ -44,6 +43,7 @@ class _ContactScreenState extends State<ContactScreen> {
   }
 
   getUsername() async{
+    await getCurrentUser();
     await FirebaseFirestore.instance
         .collectionGroup('Users')
         .where('Email', isEqualTo: loggedInUser.email)

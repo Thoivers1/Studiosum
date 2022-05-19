@@ -27,7 +27,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   void initState() {
 
     setState(() {
-      getCurrentUser();
       getUsername();
     });
   }
@@ -44,6 +43,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   }
 
   getUsername() async{
+    await getCurrentUser();
     await FirebaseFirestore.instance
         .collectionGroup('Users')
         .where('Email', isEqualTo: loggedInUser.email)
