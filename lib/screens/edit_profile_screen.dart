@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:bachelor/components/bottom_appBar.dart';
 import 'package:bachelor/constants.dart';
 import 'package:bachelor/components/rounded_button.dart';
+import 'package:flutter/services.dart';
 
 late User loggedInUser;
 
@@ -89,6 +90,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
             TextField(
               textAlign: TextAlign.center,
+              inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[<\>\&\%\!]')),],
               onChanged: (value) {
                 firstName = value;
               },
@@ -99,6 +101,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
             TextField(
               textAlign: TextAlign.center,
+              inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[<\>\&\%\!]')),],
               onChanged: (value) {
                 lastName = value;
               },
@@ -109,6 +112,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
             TextField(
               keyboardType: TextInputType.emailAddress,
+              inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[<\>\&\%\!]')),],
               textAlign: TextAlign.center,
               onChanged: (value) {
                 email = value;

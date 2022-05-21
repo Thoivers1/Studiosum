@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       final user = await _auth.currentUser;
       if (user != null) {
-        return user;
+        loggedInUser = user;
       }
     } catch (e){
       print(e);
@@ -62,6 +62,12 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     });
   }
+  bool isNumeric(String s) {
+    if (s == null) {
+      return false;
+    }
+    return double.tryParse(s) != null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(32.0)),
               ),
-              width: 300,
+              width: 250,
               child: TextField(
                 textAlign: TextAlign.center,
                 inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[<\>\&\%\!]')),],
@@ -113,33 +119,49 @@ class _HomeScreenState extends State<HomeScreen> {
                                             fagDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 99, doc.reference.path.toString().indexOf('Fag')-1),
                                             adDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 124))
                                 ));
+                              });
+                            });
+                        //Dat100 - Grunnleggende programmering
+                        await FirebaseFirestore.instance.collectionGroup('Fag')
+                            .where('Fag', isEqualTo: isbnVal).get()
+                            .then((QuerySnapshot snapshot){
+                          snapshot.docs.forEach((DocumentSnapshot doc){
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    SearchResultScreen(schoolDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 7, doc.reference.path.toString().indexOf('Skole')-1),
+                                        studyDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 34, doc.reference.path.toString().indexOf('Studieretning')-1),
+                                        semesterDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 69, doc.reference.path.toString().indexOf('Semester')-1),
+                                        fagDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 99, doc.reference.path.toString().indexOf('Fag')-1),
+                                        adDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 124))
+                            ));
+                          });
+                        });
+
                                 /*
                                 //entire path
                                 print(doc.reference.path);
                                 //Books
                                 print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 1, doc.reference.path.toString().indexOf('/')));
-                                //doc
+                                //schoolDoc
                                 print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 7, doc.reference.path.toString().indexOf('Skole')-1));
                                 //Skole
                                 print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 28, doc.reference.path.toString().indexOf('Skole')+5));
-                                //doc
+                                //studyDoc
                                 print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 34, doc.reference.path.toString().indexOf('Studieretning')-1));
                                 //Studieretning
                                 print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 55, doc.reference.path.toString().indexOf('Studieretning')+13));
-                                //doc
+                                //semesterDoc
                                 print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 69, doc.reference.path.toString().indexOf('Semester')-1));
                                 //Semester
                                 print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 90, doc.reference.path.toString().indexOf('Semester')+8));
-                                //doc
+                                //fagDoc
                                 print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 99, doc.reference.path.toString().indexOf('Fag')-1));
                                 //Fag
                                 print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 120, doc.reference.path.toString().indexOf('Fag')+3));
-                                //doc
+                                //adDoc
                                 print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 124));
 
                                  */
-                          });
-                        });
                         },
                   minWidth: 50.0,
                   height: 50.0,

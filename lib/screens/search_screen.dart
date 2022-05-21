@@ -414,10 +414,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 //SearchButton
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: 8.0, left: 150.0, right: 150.0),
+                      top: 8.0, left: 100.0, right: 100.0),
                   child: RoundedButton(
-                      widgetText: Text('Søk',
-                        style: TextStyle(color: Colors.white, fontSize: 20.0),),
+                      widgetText: FittedBox(
+                        child: Text('Søk',
+                          style: TextStyle(color: Colors.white, fontSize: 20.0),),
+                      ),
                       color: kColor,
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(

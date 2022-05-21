@@ -464,6 +464,7 @@ class _CreateScreenState extends State<CreateScreen> {
                   return Container(
                     child: DropdownButtonFormField(
                       decoration: kTextFieldDecoration.copyWith(hintText: ''),
+                      isExpanded: true,
                       value: fagId,
                       isDense: true,
                       onChanged: (String? valueSelectedByUser) {
@@ -502,7 +503,7 @@ class _CreateScreenState extends State<CreateScreen> {
 
           //SearchButton
           Padding(
-            padding: const EdgeInsets.only(top: 8.0, left: 150.0, right: 150.0),
+            padding: const EdgeInsets.only(top: 8.0, left: 100.0, right: 100.0),
             child: RoundedButton(
                 widgetText: Text('Opprett', style: TextStyle(color: Colors.white, fontSize: 20.0),),
                 color: kColor,
@@ -511,7 +512,7 @@ class _CreateScreenState extends State<CreateScreen> {
                   addToFirebase(tittel: tittel, beskrivelse: beskrivelse, pris: pris);
                   Navigator.pop(context);
                 },
-                width: 100.0,
+                width: 200.0,
                 height: 42.0
             ),
           ),
