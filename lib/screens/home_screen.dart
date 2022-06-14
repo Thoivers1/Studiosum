@@ -10,7 +10,7 @@ import 'package:bachelor/screens/create_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:bachelor/screens/ad_screen.dart';
 
-late User loggedInUser;
+User? loggedInUser;
 
 class HomeScreen extends StatefulWidget {
 
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   getAds() async{
     await FirebaseFirestore.instance
         .collectionGroup('Annonse')
-        .where('Bruker', isEqualTo: loggedInUser.email)
+        .where('Bruker', isEqualTo: loggedInUser?.email)
         .get()
         .then((QuerySnapshot snapshot){
           snapshot.docs.forEach((DocumentSnapshot doc){
@@ -62,11 +62,65 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     });
   }
-  bool isNumeric(String s) {
-    if (s == null) {
-      return false;
-    }
-    return double.tryParse(s) != null;
+
+  search() async {
+    //ISBN forstå programmering med java = 9788215031286
+    //ISBN matte = 9788215022741
+    await FirebaseFirestore.instance.collectionGroup('Fag')
+        .where('ISBN', isEqualTo: isbnVal).get()
+        .then((QuerySnapshot snapshot){
+      snapshot.docs.forEach((DocumentSnapshot doc){
+
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                SearchResultScreen(schoolDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 7, doc.reference.path.toString().indexOf('Skole')-1),
+                    studyDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 34, doc.reference.path.toString().indexOf('Studieretning')-1),
+                    semesterDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 69, doc.reference.path.toString().indexOf('Semester')-1),
+                    fagDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 99, doc.reference.path.toString().indexOf('Fag')-1),
+                    adDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 124))
+        ));
+      });
+    });
+    //Dat100 - Grunnleggende programmering
+    await FirebaseFirestore.instance.collectionGroup('Fag')
+        .where('Fag', isEqualTo: isbnVal).get()
+        .then((QuerySnapshot snapshot){
+      snapshot.docs.forEach((DocumentSnapshot doc){
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                SearchResultScreen(schoolDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 7, doc.reference.path.toString().indexOf('Skole')-1),
+                    studyDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 34, doc.reference.path.toString().indexOf('Studieretning')-1),
+                    semesterDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 69, doc.reference.path.toString().indexOf('Semester')-1),
+                    fagDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 99, doc.reference.path.toString().indexOf('Fag')-1),
+                    adDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 124))
+        ));
+      });
+    });
+    /*
+                                //entire path
+                                print(doc.reference.path);
+                                //Books
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 1, doc.reference.path.toString().indexOf('/')));
+                                //schoolDoc
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 7, doc.reference.path.toString().indexOf('Skole')-1));
+                                //Skole
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 28, doc.reference.path.toString().indexOf('Skole')+5));
+                                //studyDoc
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 34, doc.reference.path.toString().indexOf('Studieretning')-1));
+                                //Studieretning
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 55, doc.reference.path.toString().indexOf('Studieretning')+13));
+                                //semesterDoc
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 69, doc.reference.path.toString().indexOf('Semester')-1));
+                                //Semester
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 90, doc.reference.path.toString().indexOf('Semester')+8));
+                                //fagDoc
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 99, doc.reference.path.toString().indexOf('Fag')-1));
+                                //Fag
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 120, doc.reference.path.toString().indexOf('Fag')+3));
+                                //adDoc
+                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 124));
+
+                                 */
   }
 
   @override
@@ -92,6 +146,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 onChanged: (value) {
                   isbnVal = value;
                 },
+                onSubmitted: (value){
+                  search();
+                },
                 decoration: kTextFieldDecoration.copyWith(hintText: 'Søk etter bok eller ISBN'),
               ),
             ),
@@ -104,65 +161,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(20.0),
                 child: MaterialButton(
                   onPressed: () async {
-                    //ISBN forstå programmering med java = 9788215031286
-                    //ISBN matte = 9788215022741
-                        await FirebaseFirestore.instance.collectionGroup('Fag')
-                        .where('ISBN', isEqualTo: isbnVal).get()
-                            .then((QuerySnapshot snapshot){
-                              snapshot.docs.forEach((DocumentSnapshot doc){
-
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        SearchResultScreen(schoolDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 7, doc.reference.path.toString().indexOf('Skole')-1),
-                                            studyDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 34, doc.reference.path.toString().indexOf('Studieretning')-1),
-                                            semesterDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 69, doc.reference.path.toString().indexOf('Semester')-1),
-                                            fagDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 99, doc.reference.path.toString().indexOf('Fag')-1),
-                                            adDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 124))
-                                ));
-                              });
-                            });
-                        //Dat100 - Grunnleggende programmering
-                        await FirebaseFirestore.instance.collectionGroup('Fag')
-                            .where('Fag', isEqualTo: isbnVal).get()
-                            .then((QuerySnapshot snapshot){
-                          snapshot.docs.forEach((DocumentSnapshot doc){
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    SearchResultScreen(schoolDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 7, doc.reference.path.toString().indexOf('Skole')-1),
-                                        studyDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 34, doc.reference.path.toString().indexOf('Studieretning')-1),
-                                        semesterDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 69, doc.reference.path.toString().indexOf('Semester')-1),
-                                        fagDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 99, doc.reference.path.toString().indexOf('Fag')-1),
-                                        adDoc: doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 124))
-                            ));
-                          });
-                        });
-
-                                /*
-                                //entire path
-                                print(doc.reference.path);
-                                //Books
-                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 1, doc.reference.path.toString().indexOf('/')));
-                                //schoolDoc
-                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 7, doc.reference.path.toString().indexOf('Skole')-1));
-                                //Skole
-                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 28, doc.reference.path.toString().indexOf('Skole')+5));
-                                //studyDoc
-                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 34, doc.reference.path.toString().indexOf('Studieretning')-1));
-                                //Studieretning
-                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 55, doc.reference.path.toString().indexOf('Studieretning')+13));
-                                //semesterDoc
-                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 69, doc.reference.path.toString().indexOf('Semester')-1));
-                                //Semester
-                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 90, doc.reference.path.toString().indexOf('Semester')+8));
-                                //fagDoc
-                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 99, doc.reference.path.toString().indexOf('Fag')-1));
-                                //Fag
-                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 120, doc.reference.path.toString().indexOf('Fag')+3));
-                                //adDoc
-                                print(doc.reference.path.toString().substring(doc.reference.path.toString().indexOf('Books:') + 124));
-
-                                 */
-                        },
+                    search();
+                    },
                   minWidth: 50.0,
                   height: 50.0,
                   child: Icon(

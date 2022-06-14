@@ -23,9 +23,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String? username = '';
   List<Object?> users = [];
 
-  late String email;
-  late String firstName;
-  late String lastName;
+  String? email;
+  String? firstName;
+  String? lastName;
 
   @override
   void initState() {
@@ -59,6 +59,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           this.users.add(doc.data());
           username = users.toString().substring(users.toString().indexOf('FirstName:') + 10, users.toString().indexOf('LastName') - 2);
           print(username);
+          print(loggedInUser.uid);
         });
       });
     });
@@ -131,7 +132,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 width: 200,
                 height: 42,
                 onPressed: () async {
-                  loggedInUser.updateEmail(email);
+
+                  if(firstName != null) {
+                    await FirebaseFirestore.instance
+                        .collection('Users')
+                        .doc(loggedInUser.uid)
+                        .update({
+                      'FirstName': firstName,
+                    });
+                  }
+                  if(lastName != null){
+                  await FirebaseFirestore.instance
+                      .collection('Users')
+                      .doc(loggedInUser.uid)
+                      .update({
+                  'LastName' : lastName,
+                    });
+                  }
+                  if(email != null) {
+                    await FirebaseFirestore.instance
+                        .collection('Users')
+                        .doc(loggedInUser.uid)
+                        .update({
+                      'Email': email,
+                    });
+                    loggedInUser.updateEmail(email!);
+                  }
+                  /*
                   await FirebaseFirestore.instance
                       .collection('Users')
                       .doc(loggedInUser.uid)
@@ -140,10 +167,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         'lastName' : lastName,
                         'Email' : email,
                     });
+
+                   */
                   int count = 0;
                   Navigator.popUntil(context, (route) {
                     return count++ == 3;
                   });
+
                   }),
           ],
         ),

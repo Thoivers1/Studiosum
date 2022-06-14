@@ -1,3 +1,4 @@
+import 'package:bachelor/screens/home_screen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -238,7 +239,7 @@ class _CreateScreenState extends State<CreateScreen> {
                   });
                   switch (valueSelectedByUser){
                     case 'Bergen': {
-                      changeDoc((snapshot.data! as QuerySnapshot).docs[0].reference.id.toString(), 'studie');
+                      changeDoc((snapshot.data! as QuerySnapshot).docs[1].reference.id.toString(), 'studie');
                       setState(() {
                         skoleId = null;
                         retningId = null;
@@ -297,7 +298,7 @@ class _CreateScreenState extends State<CreateScreen> {
                           switch (valueSelectedByUser){
                             case 'Høgskulen ved Vestlandet':
                               {
-                                changeDoc((snapshot.data! as QuerySnapshot).docs[0].reference.id.toString(), 'studieRetning');
+                                changeDoc((snapshot.data! as QuerySnapshot).docs[2].reference.id.toString(), 'studieRetning');
                                 setState(() {
                                   retningId = null;
                                   semesterId = null;
@@ -510,7 +511,7 @@ class _CreateScreenState extends State<CreateScreen> {
                 onPressed: (){
 
                   addToFirebase(tittel: tittel, beskrivelse: beskrivelse, pris: pris);
-                  Navigator.pop(context);
+                  Navigator.pushNamed(context, HomeScreen.id);
                 },
                 width: 200.0,
                 height: 42.0

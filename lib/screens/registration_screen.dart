@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bachelor/screens/home_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:uuid/uuid.dart';
 
 class RegistrationScreen extends StatefulWidget {
 
@@ -26,12 +25,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   late String lastName;
   late String password;
   late String password2;
+  late String uid;
 
-  Future addUser ({required String firstName, required String lastName, required String email}) async {
-    const uuid = Uuid();
-    String id = uuid.v1();
+
+  Future addUser ({required String firstName, required String lastName, required String email, required String uid}) async {
+    //const uuid = Uuid();
+    //String id = uuid.v1();
     final docUser = FirebaseFirestore.instance.collection('Users')
-        .doc(id);
+        .doc(uid);
 
     final data = {
       'Email': email,
@@ -41,6 +42,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     await docUser.set(data);
   }
+
+  void _register() async {
+    final User? user = (await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    ))
+        .user;
+    if (user != null) {
+      setState(() {
+        uid = user.uid;
+      });
+    }
+    addUser(firstName: firstName, lastName: lastName, email: email, uid: uid);
+    Navigator.pushNamed(context, HomeScreen.id);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -125,10 +142,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   });
                   try {
                     if(password == password2){
+                      _register();
+                      /*
                       final newUser = await _auth.createUserWithEmailAndPassword(
                           email: email, password: password);
-                      addUser(firstName: firstName, lastName: lastName, email: email);
+                      addUser(firstName: firstName, lastName: lastName, email: email, uid: uid);
                       if(newUser != null){
+
                         Navigator.pushNamed(context, HomeScreen.id);
                       }
                     } else {
@@ -139,6 +159,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               title: Text('Passord ikke like'),
                             );
                           });
+
+                       */
                     }
 
                     setState(() {

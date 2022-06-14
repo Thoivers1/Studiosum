@@ -127,7 +127,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 case 'Bergen':
                                   {
                                     changeDoc((snapshot.data! as QuerySnapshot)
-                                        .docs[0].reference.id.toString(),
+                                        .docs[1].reference.id.toString(),
                                         'studie');
                                     setState(() {
                                       schoolId = null;
@@ -192,7 +192,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 case 'Høgskulen ved Vestlandet':
                                   {
                                     changeDoc((snapshot.data! as QuerySnapshot)
-                                        .docs[0].reference.id.toString(),
+                                        .docs[2].reference.id.toString(),
                                         'studieRetning');
                                     setState(() {
                                       retningId = null;

@@ -33,7 +33,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 height: 100.0,
               ),
               RoundedButton(
-                  widgetText: Text('Logg in', style: TextStyle(color: Colors.white)),
+                  widgetText: Text('Logg inn', style: TextStyle(color: Colors.white)),
                   color: kColor,
                   width: 500,
                   height: 42,
